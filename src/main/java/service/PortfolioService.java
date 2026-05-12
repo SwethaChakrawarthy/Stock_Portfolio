@@ -56,7 +56,10 @@ public class PortfolioService {
             portfolio.getTransactions().push(t);
 
         }
-    void getPortfolioValue(){}
+    void getPortfolioValue(){
+        double total = 0;
+
+    }
     void getTransactionHistory(){}
 
 }
