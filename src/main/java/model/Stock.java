@@ -38,4 +38,9 @@ public class Stock {
         }
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return symbol + " | " + name + " | $" + price + " | " + sector;
+    }
 }

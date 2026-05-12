@@ -16,7 +16,7 @@ public class StockMarket {
         }
         return stocks.get(symbol);
     }
-    public static Collection<Stock> getAllStocks() {
+    public Collection<Stock>getAllStocks() {
         return stocks.values();
     }
     public void updatePrice(String symbol, double newPrice)
