@@ -2,12 +2,10 @@ package service;
 import exceptions.InsufficientFundsException;
 import exceptions.InsufficientSharesException;
 import exceptions.StockNotFoundException;
-import model.Stock;
-import model.Portfolio;
-import model.Transaction;
-import model.TransactionType;
+import model.*;
 
 import java.time.LocalDate;
+import java.util.Stack;
 
 public class PortfolioService {
     private Portfolio portfolio;
@@ -56,10 +54,20 @@ public class PortfolioService {
             portfolio.getTransactions().push(t);
 
         }
-    void getPortfolioValue(){
+    public double getPortfolioValue(StockMarket market){
         double total = 0;
+        for(Stock stock: market.getAllStocks()){
+            if(portfolio.getStocks().containsKey(stock.getSymbol())){
+                int shares = portfolio.getStocks()
+                        .getOrDefault(stock.getSymbol(), 0);
+                total = total + (shares *  stock.getPrice());
 
+            }
+        }
+        return total;
     }
-    void getTransactionHistory(){}
+    public Stack<Transaction> getTransactionHistory(){
+        return portfolio.getTransactions();
+    }
 
 }
