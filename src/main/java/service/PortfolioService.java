@@ -1,5 +1,7 @@
 package service;
 import exceptions.InsufficientFundsException;
+import exceptions.InsufficientSharesException;
+import exceptions.StockNotFoundException;
 import model.Stock;
 import model.Portfolio;
 import model.Transaction;
@@ -30,7 +32,30 @@ public class PortfolioService {
 
     }
 
-    void sellStock(){}
+        public void sellStock(Stock stock,int shares) throws InsufficientSharesException,StockNotFoundException {
+            if (!portfolio.getStocks().containsKey(stock.getSymbol())){
+                throw new StockNotFoundException("Stock not found");
+            }
+            int existing = portfolio.getStocks().getOrDefault(stock.getSymbol(), 0);
+            if (existing<shares){
+                throw new InsufficientSharesException("Insufficient Shares");
+            }
+            double totalEarned  = shares * stock.getPrice();
+            portfolio.setCashBalance(portfolio.getCashBalance() + totalEarned);
+
+            if (existing-shares ==0 ){
+                portfolio.getStocks().remove(stock.getSymbol());
+            }
+            else{
+                portfolio.getStocks().put(stock.getSymbol(), existing-shares);
+            }
+            Transaction t = new Transaction(
+                            stock, stock.getPrice(), LocalDate.now(),
+                    shares, TransactionType.SELL
+                    );
+            portfolio.getTransactions().push(t);
+
+        }
     void getPortfolioValue(){}
     void getTransactionHistory(){}
 
